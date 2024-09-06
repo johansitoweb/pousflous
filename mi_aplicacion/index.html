@@ -1,0 +1,30 @@
+<!DOCTYPE html>  
+<html lang="es">  
+<head>  
+    <meta charset="UTF-8">  
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">  
+    <title>Mi Aplicación Go y Angular.js</title>  
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.2/angular.min.js"></script>  
+</head>  
+<body ng-app="miApp" ng-controller="miControlador">  
+
+    <h1>{{ mensaje }}</h1>  
+    <button ng-click="obtenerMensaje()">Obtener Mensaje</button>  
+
+    <script>  
+        angular.module('miApp', [])  
+            .controller('miControlador', ['$scope', '$http', function($scope, $http) {  
+                $scope.mensaje = '';  
+
+                $scope.obtenerMensaje = function() {  
+                    $http.get('http://localhost:8080/api/mensaje')  
+                        .then(function(response) {  
+                            $scope.mensaje = response.data.mensaje;  
+                        }, function(error) {  
+                            console.error('Error al obtener el mensaje:', error);  
+                        });  
+                };  
+            }]);  
+    </script>  
+</body>  
+</html>
